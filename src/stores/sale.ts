@@ -10,6 +10,7 @@ import { type Sale } from '@/models/types'
 export const useSaleStore = defineStore('sale', () => {
 	const cart = ref<Sale[]>([])
 	const sales = ref<Sale[]>([])
+	const slug = ref<string>('sale')
 
 	const add_to_cart = (payload: Sale) => {
 		cart.value = [payload, ...cart.value]
@@ -21,9 +22,27 @@ export const useSaleStore = defineStore('sale', () => {
 		console.log(cart.value)
 	}
 
+	const save_sale = async (payload: Sale[]) => {
+		// console.log(payload)
+		await Promise.all(
+			payload.map(async (item: Sale) => {
+				await axios.post(`${url}/${slug.value}`, {
+					product: item.product,
+					date: item.date,
+					quantity: item.quantity,
+				})
+				await axios.put(`${url}/product/${item.info.id}`, {
+					...item.info,
+					quantity: item.info.quantity - item.quantity,
+				})
+			})
+		)
+	}
+
 	return {
 		cart,
 		sales,
 		add_to_cart,
+		save_sale,
 	}
 })

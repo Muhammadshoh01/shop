@@ -33,6 +33,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
+import { type Category } from '@/models/types'
 import { useCategoryStore } from '@/stores/category'
 import { useSaleStore } from '@/stores/sale'
 const count = ref<number>(0)

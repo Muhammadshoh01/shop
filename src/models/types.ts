@@ -35,4 +35,5 @@ export interface Sale {
 	product: number
 	date: Date
 	quantity: number
+	info: Product
 }
