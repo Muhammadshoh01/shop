@@ -4,7 +4,6 @@
 			<h1>Sotuv bo'limi</h1>
 			<el-button type="primary" @click="toggle = true">Korzinka</el-button>
 		</div>
-		<el-input placeholder="Qidiruv" />
 		<card :toggle="toggle" @close="handleClose" />
 
 		<el-row :gutter="30" class="el-row">

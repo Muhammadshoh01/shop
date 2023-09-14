@@ -35,7 +35,7 @@
 				</el-input>
 			</el-form-item>
 			<el-form-item label="Soni" prop="quantity">
-				<el-input type="number" v-model="productForm.quantity" />
+				<el-input-number type="number" v-model="productForm.quantity" />
 			</el-form-item>
 			<el-form-item label="Rasmi url" prop="img">
 				<el-input v-model="productForm.img" />

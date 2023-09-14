@@ -1,4 +1,4 @@
-import type { Product } from '@/models/types'
+import type { Product, Sale } from '@/models/types'
 import axios from 'axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -7,6 +7,8 @@ import { ElMessage } from 'element-plus'
 
 export const useProductStore = defineStore('product', () => {
 	const products = ref<Product[]>([])
+	const productLabels = ref<string[]>([])
+	const productCount = ref<number[]>([])
 	const slug = ref<string>('product')
 
 	const add_product = async (payload: Product): Promise<void> => {
@@ -57,6 +59,25 @@ export const useProductStore = defineStore('product', () => {
 		}
 	}
 
+	const get_product_all = async (): Promise<void> => {
+		let res = await axios.get(`${url}/${slug.value}`)
+		if (res.status == 200) {
+			productLabels.value = res.data.map((product: Product) => product.title)
+			productCount.value = await Promise.all(
+				res.data.map(async (prod: Product) => {
+					let count = 0
+					let result = await axios.get(`${url}/sale?product=${prod.id}`)
+					if (result.status == 200) {
+						result.data.forEach((el: Sale) => {
+							count += el.quantity
+						})
+					}
+					return count
+				})
+			)
+		}
+	}
+
 	const remove_product = async (id: number): Promise<void> => {
 		let res = await axios.delete(`${url}/${slug.value}/${id}`)
 		if (res.status == 200) {
@@ -76,9 +97,12 @@ export const useProductStore = defineStore('product', () => {
 
 	return {
 		products,
+		productLabels,
+		productCount,
 
 		add_product,
 		get_product,
+		get_product_all,
 		update_product,
 		get_one_product,
 		remove_product,

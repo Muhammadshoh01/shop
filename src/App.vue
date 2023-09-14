@@ -2,6 +2,7 @@
 	<div class="wrapper">
 		<div class="d-flex gap-10">
 			<RouterLink to="/">Bosh sahifa</RouterLink>
+			<RouterLink to="/sale">Hisobotlar</RouterLink>
 			<RouterLink to="/category">Turkumlar</RouterLink>
 			<RouterLink to="/param">Xarakteristikalar</RouterLink>
 			<RouterLink to="/product">Mahsulotlar</RouterLink>
